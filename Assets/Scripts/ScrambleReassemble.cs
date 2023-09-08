@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ScrambleReassemble : MonoBehaviour
 {
     [SerializeField] private float rangeMin = 0f;
     [SerializeField] private float rangeMax = 10f;
     [SerializeField] private float animationTime = 1f;
+    [SerializeField] private InputAction scrambleButton;
+    [SerializeField] private InputAction assembleButton;
 
     private List<Transform> childTransforms = new();
 
@@ -28,17 +30,18 @@ public class ScrambleReassemble : MonoBehaviour
     void Start()
     {
         LoadTransforms(transform);
+        scrambleButton.Enable();
+        assembleButton.Enable();
     }
 
     // Update is called once per frameframe
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (scrambleButton.WasPressedThisFrame())
         {
             Scramble();
         }
-
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        if (assembleButton.WasPressedThisFrame())
         {
             Reassemble();
         }
